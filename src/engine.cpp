@@ -1,8 +1,8 @@
 #include "../include/engine.h"
 
 Engine::Engine(const int length, const int height) {
-    rows = length;
-    cols = height;
+    cols = length;
+    rows = height;
     current.resize(rows * cols);
     next.resize(rows * cols);
 }
