@@ -12,7 +12,7 @@ class Engine {
     void update();
 
     // Create a particle of type at specified position
-    void spawn_particle(int x, int y, int type);
+    void spawn_particle(int x, int y, ParticleType type);
 
     // Send out grid
     const std::vector<Particle>& getGrid() {
