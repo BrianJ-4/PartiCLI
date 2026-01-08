@@ -8,6 +8,7 @@ add_executable(PartiCLI src/main.cpp
         include/engine.h
         src/renderer.cpp
         include/renderer.h
+        include/constants.h
 )
 
 if(WIN32)
