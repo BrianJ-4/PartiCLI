@@ -1,6 +1,7 @@
 #ifndef PARTICLI_ENGINE_H
 #define PARTICLI_ENGINE_H
 #include <vector>
+#include "constants.h"
 
 class Engine {
     public:
@@ -14,15 +15,19 @@ class Engine {
     void spawn_particle(int x, int y, int type);
 
     // Send out grid
-    const std::vector<int>& getGrid() {
+    const std::vector<Particle>& getGrid() {
         return current;
     }
 
     private:
     int rows;
     int cols;
-    std::vector<int> current;
-    std::vector<int> next;
+    std::vector<Particle> current;
+    std::vector<Particle> next;
+
+    // Convert 2D coordinates to position in 1D vector
+    int get1DPosition(int row, int col) const;
+
 };
 
 #endif //PARTICLI_ENGINE_H
