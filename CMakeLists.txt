@@ -4,6 +4,10 @@ project(PartiCLI)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(PartiCLI src/main.cpp
+        src/engine.cpp
+        include/engine.h
+        src/renderer.cpp
+        include/renderer.h
 )
 
 if(WIN32)
