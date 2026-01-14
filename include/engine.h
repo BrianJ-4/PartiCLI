@@ -25,6 +25,9 @@ class Engine {
     std::vector<Particle> current;
     std::vector<Particle> next;
 
+    // Calculate movement based on particle type
+    void moveParticle(int x, int y);
+
     // Convert 2D coordinates to position in 1D vector
     int get1DPosition(int row, int col) const;
 
