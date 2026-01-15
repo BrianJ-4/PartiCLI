@@ -41,8 +41,8 @@ void Engine::moveParticle(int x, int y) {
             // Position under particle
             const int dst = get1DPosition(ny, x);
             ParticleType dstType = next[dst].type;
-            // Swap positions if air
-            if (dstType == AIR) {
+            // Swap positions if air or water
+            if (dstType == AIR || dstType == WATER) {
                 // Swap particles
                 Particle falling = p;
                 falling.moved = true;
@@ -64,7 +64,7 @@ void Engine::moveParticle(int x, int y) {
 
                     const int diag = get1DPosition(ny, nx);
                     ParticleType diagType = next[diag].type;
-                    if (diagType == AIR) {
+                    if (diagType == AIR || diagType == WATER) {
                         // Swap particles
                         Particle falling = p;
                         falling.moved = true;
