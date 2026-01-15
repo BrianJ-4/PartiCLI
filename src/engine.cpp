@@ -76,6 +76,46 @@ void Engine::moveParticle(int x, int y) {
             }
         }
     }
+    // Water Particle
+    if (p.type == WATER) {
+        // New y coordinate particle will fall into
+        const int ny = y + 1;
+        if (ny < rows) {
+            // Position under particle
+            const int dst = get1DPosition(ny, x);
+            ParticleType dstType = next[dst].type;
+            // Swap positions if air
+            if (dstType == AIR) {
+                // Swap particles
+                Particle falling = p;
+                falling.moved = true;
+                next[get1DPosition(y, x)] = {dstType, true};
+                next[dst] = falling;
+                return;
+            }
+        }
+        // Cannot move down, flow left and right
+        const int c = coinFlip(rng);
+        for (int a = 0; a < 2; ++a) {
+            const bool left = (a == 0) ? (c == 0) : (c != 0);
+            const int nx = left ? x - 1 : x + 1;
+
+            if (nx < 0 || nx >= cols)
+                continue;
+
+            const int side = get1DPosition(y, nx);
+            ParticleType sideType = next[side].type;
+            if (sideType == AIR) {
+                // Swap particles
+                Particle flowing = p;
+                flowing.moved = true;
+                next[get1DPosition(y, x)] = {sideType, true};
+                next[side] = flowing;
+                return;
+            }
+        }
+    }
+
     // If it didn't move, mark it as processed this tick
     p.moved = true;
 }
