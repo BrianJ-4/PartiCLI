@@ -1,4 +1,9 @@
 #include "../include/engine.h"
+#include <iostream>
+#include <random>
+
+std::mt19937 rng(std::random_device{}());
+std::uniform_int_distribution<int> coinFlip(0, 1);
 
 Engine::Engine(const int length, const int height) {
     cols = length;
@@ -28,6 +33,7 @@ void Engine::moveParticle(int x, int y) {
     if (p.moved || p.type == AIR)
         return;
 
+    // Sand Particle
     if (p.type == SAND) {
         // New y coordinate particle will fall into
         const int ny = y + 1;
@@ -43,6 +49,30 @@ void Engine::moveParticle(int x, int y) {
                 next[get1DPosition(y, x)] = {dstType, true};
                 next[dst] = falling;
                 return;
+            }
+            // Piling logic if sand
+            if (dstType == SAND) {
+                // Randomly move down and left or down and right
+                const int c = coinFlip(rng);
+
+                for (int a = 0; a < 2; ++a) {
+                    const bool left = (a == 0) ? (c == 0) : (c != 0);
+                    const int nx = left ? x - 1 : x + 1;
+
+                    if (nx < 0 || nx >= cols)
+                        continue;
+
+                    const int diag = get1DPosition(ny, nx);
+                    ParticleType diagType = next[diag].type;
+                    if (diagType == AIR) {
+                        // Swap particles
+                        Particle falling = p;
+                        falling.moved = true;
+                        next[get1DPosition(y, x)] = {diagType, true};
+                        next[diag] = falling;
+                        return;
+                    }
+                }
             }
         }
     }
